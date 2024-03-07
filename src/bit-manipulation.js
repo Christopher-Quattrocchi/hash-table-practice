@@ -212,11 +212,66 @@ function decryptString(encryptedNumber) {
 
   // 
 }
+//solution from senior dev
 
+function flipBits(charCode) {
+  return parseInt(charCode
+      .toString(2)
+      .padStart(16, '0')
+      .split('')
+      .map(function (b) { return b === '0' ? '1' : '0'; })
+      .join(''), 2);
+}
+function encrypt(text) {
+  return text
+      .split('')
+      .map(function (c) { return c.charCodeAt(0); })
+      .map(function (charCode) { return charCode << 2; })
+      .map(flipBits)
+      .map(function (flipped) { return flipped << 3; });
+}
+function decrypt(cypher) {
+  return cypher
+      .map(function (charCode) { return charCode >> 3; })
+      .map(flipBits)
+      .map(function (flipped) { return flipped >> 2; })
+      .map(function (c) { return String.fromCharCode(c); })
+      .join('');
+}
+console.log(decrypt(encrypt("Hello Erik!")));
 
+//solution in typescript
 
+function flipBits(charCode: number): number {
+  return parseInt(
+      charCode
+        .toString(2)
+        .padStart(16, '0')
+        .split('')
+        .map((b) => b === '0' ? '1' : '0')
+        .join(''),
+    2)
+}
 
+function encrypt(text: string): number[] {
+  return text
+    .split('')
+    .map((c) => c.charCodeAt(0))
+    .map((charCode) => charCode << 2)
+    .map(flipBits)
+    .map((flipped) => flipped << 3)
+}
 
+function decrypt(cypher: number[]): string {
+  return cypher
+    .map((charCode) => charCode >> 3)
+    .map(flipBits)
+    .map((flipped) => flipped >> 2)
+    .map((c) => String.fromCharCode(c))
+    .join('')
+}
+
+console.log(decrypt(encrypt("Hello Erik!")));
 
 
 const princexList = {
